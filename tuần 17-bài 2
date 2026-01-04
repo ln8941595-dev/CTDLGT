@@ -1,0 +1,34 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct BinaryNode {
+    int index;
+    string title;
+    BinaryNode *left, *right;
+    BinaryNode(int idx, string t) : index(idx), title(t), left(nullptr), right(nullptr) {}
+};
+
+// Thuật toán kiểm tra 2 cây có đồng dạng và đồng nhất hay không
+bool areBooksEqual(BinaryNode* root1, BinaryNode* root2) {
+    if (!root1 && !root2) return true;
+    if (!root1 || !root2) return false;
+    return (root1->index == root2->index && 
+            root1->title == root2->title && 
+            areBooksEqual(root1->left, root2->left) && 
+            areBooksEqual(root1->right, root2->right));
+}
+
+int main() {
+    BinaryNode* b1 = new BinaryNode(1, "Chuong 1");
+    b1->left = new BinaryNode(2, "Muc 1.1");
+
+    BinaryNode* b2 = new BinaryNode(1, "Chuong 1");
+    b2->left = new BinaryNode(2, "Muc 1.1");
+
+    if (areBooksEqual(b1, b2)) cout << "Ket qua: Hai cuon sach giong het nhau!" << endl;
+    else cout << "Ket qua: Hai cuon sach co su khac biet!" << endl;
+
+    return 0;
+}
