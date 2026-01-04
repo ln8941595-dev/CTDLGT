@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int val;
+    Node *left, *right;
+    Node(int v) : val(v), left(nullptr), right(nullptr) {}
+};
+
+bool isSameTree(Node* a, Node* b) {
+    if (!a && !b) return true;
+    if (!a || !b) return false;
+    return (a->val == b->val &&
+            isSameTree(a->left, b->left) &&
+            isSameTree(a->right, b->right));
+}
+
+int main() {
+    Node* t1 = new Node(1);
+    t1->left = new Node(2);
+
+    Node* t2 = new Node(1);
+    t2->left = new Node(2);
+
+    if (isSameTree(t1, t2))
+        cout << "Hai cay nhi phan giong nhau\n";
+    else
+        cout << "Hai cay nhi phan KHONG giong nhau\n";
+
+    return 0;
+}
