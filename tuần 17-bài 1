@@ -31,17 +31,17 @@ Node* findLongestChapter(Node* root) {
 }
 
 // 3. Tìm và xoá một mục, sau đó cập nhật lại số trang của các mục cha
-bool removeAndUpdate(Node* current, string targetTitle, int &pagesRemoved) {
+bool removeAndUpdate(Node* current, string targetTitle, int& pagesRemoved) {
     for (auto it = current->children.begin(); it != current->children.end(); ++it) {
         if ((*it)->title == targetTitle) {
-            pagesRemoved = (*it)->pages; 
-            delete *it;
+            pagesRemoved = (*it)->pages;
+            delete* it;
             current->children.erase(it);
-            current->pages -= pagesRemoved; 
+            current->pages -= pagesRemoved;
             return true;
         }
         if (removeAndUpdate(*it, targetTitle, pagesRemoved)) {
-            current->pages -= pagesRemoved; 
+            current->pages -= pagesRemoved;
             return true;
         }
     }
@@ -49,33 +49,51 @@ bool removeAndUpdate(Node* current, string targetTitle, int &pagesRemoved) {
 }
 
 void printMenu(Node* node, int level = 0) {
-    for(int i=0; i<level; i++) cout << "  ";
+    for (int i = 0; i < level; i++) cout << "  ";
     cout << "+ " << node->title << " (" << node->pages << " trang)" << endl;
-    for(auto child : node->children) printMenu(child, level + 1);
+    for (auto child : node->children) {
+        printMenu(child, level + 1);
+    }
+}
+
+  // 4. Tìm một chương bất kỳ và in ra đề mục của chương đó
+  
+void printChapterSections(Node* book, string chapterName) {
+    for (Node* chapter : book->children) {  
+        if (chapter->title == chapterName) {
+            cout << "\nDe muc cua " << chapterName << ":\n";
+            for (Node* section : chapter->children) {
+                cout << "- " << section->title
+                    << " (" << section->pages << " trang)" << endl;
+            }
+            return;
+        }
+    }
+    cout << "\nKhong tim thay chuong " << chapterName << endl;
 }
 
 int main() {
     Node* book = new Node("Giao trinh C++", 500);
+
     Node* c1 = new Node("Chuong 1", 100);
     c1->children.push_back(new Node("Muc 1.1", 40));
     c1->children.push_back(new Node("Muc 1.2", 60));
-    
+
     Node* c2 = new Node("Chuong 2", 200);
     c2->children.push_back(new Node("Muc 2.1", 200));
-    
+
     book->children.push_back(c1);
     book->children.push_back(c2);
 
-    cout << "Muc luc ban dau" << endl;
+    cout << "Muc luc ban dau\n";
     printMenu(book);
 
     int removed = 0;
-    if (removeAndUpdate(book, "Muc 1.1", removed)) {
-        cout << "\nDa xoa Muc 1.1 (40 trang). Cap nhat lai so trang" << endl;
-    }
+    removeAndUpdate(book, "Muc 1.1", removed);
 
-    cout << "\n Muc luc sau khi xoa" << endl;
+    cout << "\nMuc luc sau khi xoa\n";
     printMenu(book);
+    printChapterSections(book, "Chuong 1");
 
     return 0;
 }
