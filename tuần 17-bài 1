@@ -66,15 +66,15 @@ int main() {
     book->children.push_back(c1);
     book->children.push_back(c2);
 
-    cout << "--- Muc luc ban dau ---" << endl;
+    cout << "Muc luc ban dau" << endl;
     printMenu(book);
 
     int removed = 0;
     if (removeAndUpdate(book, "Muc 1.1", removed)) {
-        cout << "\nDa xoa Muc 1.1 (40 trang). Cap nhat lai so trang..." << endl;
+        cout << "\nDa xoa Muc 1.1 (40 trang). Cap nhat lai so trang" << endl;
     }
 
-    cout << "\n--- Muc luc sau khi xoa ---" << endl;
+    cout << "\n Muc luc sau khi xoa" << endl;
     printMenu(book);
 
     return 0;
