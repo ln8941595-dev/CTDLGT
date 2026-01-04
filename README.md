@@ -12,13 +12,13 @@ struct Node {
     Node(string t, int p) : title(t), pages(p) {}
 };
 
-// 1. Xác định số chương của cuốn sách (Level 1)
+// 1. Xác định số chương của cuốn sách
 int countChapters(Node* root) {
     if (!root) return 0;
     return root->children.size();
 }
 
-// 2. Tìm chương dài nhất (nhiều trang nhất)
+// 2. Tìm chương dài nhất
 Node* findLongestChapter(Node* root) {
     if (!root || root->children.empty()) return nullptr;
     Node* longest = root->children[0];
@@ -34,15 +34,14 @@ Node* findLongestChapter(Node* root) {
 bool removeAndUpdate(Node* current, string targetTitle, int &pagesRemoved) {
     for (auto it = current->children.begin(); it != current->children.end(); ++it) {
         if ((*it)->title == targetTitle) {
-            pagesRemoved = (*it)->pages; // Lưu lại số trang để trừ đi
+            pagesRemoved = (*it)->pages; 
             delete *it;
             current->children.erase(it);
-            current->pages -= pagesRemoved; // Cập nhật cha trực tiếp
+            current->pages -= pagesRemoved; 
             return true;
         }
-        // Đệ quy xuống cấp dưới
         if (removeAndUpdate(*it, targetTitle, pagesRemoved)) {
-            current->pages -= pagesRemoved; // Cập nhật lại tổ tiên
+            current->pages -= pagesRemoved; 
             return true;
         }
     }
